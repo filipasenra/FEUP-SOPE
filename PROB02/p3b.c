@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
     int nr;
     while ((nr = read(file1, a, MAX_LEN)) > 0)
     {
-        if (write(file2, a, nr) != nr)
+        if (write(STDOUT_FILENO, a, nr) != nr)
         {
             perror("ERROR WRITING IN DESTINATION FILE!");
         }
