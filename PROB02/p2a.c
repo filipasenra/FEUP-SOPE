@@ -35,7 +35,7 @@ int main(int argc, char *argv[])
     {
         if (write(file2, a, nr) != nr)
         {
-            perror("ERROR OPENING DESTINATION FILE!");
+            perror("ERROR WRITING IN DESTINATION FILE!");
         }
     }
 
