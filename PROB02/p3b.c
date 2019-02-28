@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
     {
         if (write(STDOUT_FILENO, a, nr) != nr)
         {
-            perror("ERROR WRITING IN DESTINATION FILE!");
+            perror("ERROR WRITING IN DESTINATION!");
         }
     }
 
