@@ -19,7 +19,7 @@ int main(void)
     new = old;
 
     //vamos alterar a estrutura para que nao escreva no ecra
-    //desativar os campos: ECHO, ECHOE, ECHOK
+    //desativar os campos: ECHO, ECHOE, ECHOK e o Modo Canonico
     new.c_lflag &= ~(ECHO | ECHOE | ECHOK | ICANON);
 
     //queremos que a alteracao ocorra apos fazer o print para a consola
