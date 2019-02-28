@@ -7,8 +7,6 @@
 
 int main(void)
 {
-    char password[MAX_LEN];
-
     write(STDIN_FILENO, "Password: ", strlen("Password: "));
 
     struct termios old, new;
