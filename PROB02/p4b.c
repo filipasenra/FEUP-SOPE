@@ -6,7 +6,7 @@
 
 #define MAX_LEN_NAME 20
 #define MAX_LEN_GRADE 4
-#define MAX_N_STUDENTS 2
+#define MAX_N_STUDENTS 4
 
 int main(int argc, char *argv[])
 {
@@ -24,9 +24,14 @@ int main(int argc, char *argv[])
         return 2;
     }
 
-    char grades[MAX_N_STUDENTS][MAX_LEN_GRADE];
-    char students[MAX_N_STUDENTS][MAX_LEN_NAME];
-    
+    typedef struct Student
+    {
+        char name[MAX_LEN_NAME];
+        int grade;
+    } Student;
+
+    Student struStudents[MAX_N_STUDENTS];
+
     printf("Enter %d student names and their respective grades.\n", MAX_N_STUDENTS);
 
     //let's get the name of the students and their respectives grades
@@ -35,20 +40,17 @@ int main(int argc, char *argv[])
     for (i = 0; i < MAX_N_STUDENTS; i++)
     {
         printf("\nName: ");
-        fgets(students[i], MAX_LEN_NAME, stdin);
+        fgets(struStudents[i].name, MAX_LEN_NAME, stdin);
         printf("Grade: ");
-        fgets(grades[i], MAX_LEN_GRADE, stdin);
+        scanf("%d", &struStudents[i].grade);
+        getchar();
     }
 
     while (i > 0)
     {
         i--;
 
-        //think why i don't use MAX_LEN_NAME & MAX_LEN_GRADE here
-        write(file1, students[i], strlen(students[i])-1);
-        write(file1, ": ", strlen(": "));
-        write(file1, grades[i], strlen(grades[i])-1);
-        write(file1, "\n", strlen("\n"));
+        write(file1, &struStudents[i], sizeof(struct Student));
     }
 
     close(file1);
