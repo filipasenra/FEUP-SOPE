@@ -4,8 +4,8 @@
 #include <errno.h>
 #include <string.h>
 
-#define MAX_LEN_NAME 20
-#define MAX_LEN_GRADE 4
+#define MAX_LEN_NAME 100
+#define MAX_LEN_GRADE 15
 #define MAX_N_STUDENTS 4
 
 int main(int argc, char *argv[])
@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
     }
 
     //abre o ficheiro numero 1
-    int file1 = open(argv[1], O_WRONLY);
+    int file1 = open(argv[1], O_WRONLY | O_TRUNC);
     if (file1 == -1)
     {
         perror("ERROR OPENING Destination FILE!");
@@ -50,7 +50,7 @@ int main(int argc, char *argv[])
     {
         i--;
 
-        write(file1, &struStudents[i], sizeof(struct Student));
+        write(file1, &struStudents[i], sizeof(Student));
     }
 
     close(file1);
