@@ -41,7 +41,8 @@ int main(int argc, char *argv[], char *envp[])
                 exit(3);
             }
         }
-        //write(STDOUT_FILENO, "hello", 5);
+
+
         execlp("ls", "ls", "-laR", argv[1], NULL);
 
         printf("Command not executed !\n");
