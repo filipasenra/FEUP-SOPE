@@ -61,7 +61,7 @@ int main(int argc, char *argv[], char *envp[])
     while (strcmp(a, "quit") != 0)
     {
 
-        printf("\nminix > ");
+        printf("minix > ");
         fgets(a, sizeof(a), stdin);
         eliminating_new_line(a);
 
