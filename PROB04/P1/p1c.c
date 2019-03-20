@@ -17,14 +17,23 @@ int main(void)
     action.sa_handler = sigint_handler;
     sigemptyset(&action.sa_mask);
     action.sa_flags = 0;
-    sigaction(SIGINT , &action , NULL);
+
+    if (sigaction(SIGINT, &action, NULL) < 0)
+    {
+        fprintf(stderr, "Unable to install SIGINT handler\n");
+        exit(1);
+    }
 
     //======================================
     action.sa_handler = SIG_IGN;
     //sigemptyset(&action.sa_mask);
     action.sa_flags = 0;
-    sigaction(SIGUSR1 , &action , NULL);
-
+    
+    if (sigaction(SIGUSR1, &action, NULL) < 0)
+    {
+        fprintf(stderr, "Unable to ignore SIGUSR1\n");
+        exit(2);
+    }
 
     printf("Sleeping for 30 seconds ...\n");
 
