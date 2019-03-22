@@ -1,4 +1,4 @@
-// PROGRAMA p01a.c
+// PROGRAMA p01b.c
 #include <stdio.h>
 #include <signal.h>
 #include <unistd.h>
