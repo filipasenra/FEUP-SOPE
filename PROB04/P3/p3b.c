@@ -1,93 +1,71 @@
-// PROGRAMA p03a.c
-#include <stdio.h>
-#include <signal.h>
+/* FOLHA DE PROBLEMAS No 4 - Sinais
+ *  Prob. 3.b)
+ * jmcruz@fe.up.pt, 22.mar.2019
+ */
+
+#include <sys/types.h>
 #include <unistd.h>
+#include <signal.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <time.h>
-#include <wait.h>
 
 int v = 0;
+#define NTIMES 10
 
-void handler(int signo)
+void handler(int n)
 {
-    if (signo == SIGUSR1)
-    {
+    if (n == SIGUSR1)
         v++;
-    }
-    else
-    {
+    if (n == SIGUSR2)
         v--;
-    }
-
-    printf("V value: %d\n", v);
-}
+    printf("\nv: %d", v);
+    if (v >= NTIMES)
+        exit(0);
+} // handler()
 
 int main(void)
 {
-    struct sigaction action;
-    action.sa_handler = handler;
-    sigemptyset(&action.sa_mask);
-    action.sa_flags = 0;
-
-    if (sigaction(SIGUSR1, &action, NULL) < 0)
+    int f = fork();
+    struct sigaction act;
+    act.sa_handler = handler;
+    sigemptyset(&act.sa_mask);
+    act.sa_flags = 0;
+    // NOTE: it is not good idea to install here the signal handlers, as signals might arrive before and kill child!
+    if (sigaction(SIGUSR1, &act, NULL) < 0)
     {
-        fprintf(stderr, "Unable to install SIGUSR1 handler\n");
+        perror("sigaction1");
         exit(1);
     }
-
-    if (sigaction(SIGUSR2, &action, NULL) < 0)
+    if (sigaction(SIGUSR2, &act, NULL) < 0)
     {
-        fprintf(stderr, "Unable to install SIGUSR2 handler\n");
+        perror("sigaction2");
         exit(1);
     }
-
-    int pid;
-    pid = fork();
-
-    setbuf(stdout, NULL);
-
-    if (pid < 0)
+    if (f < 0)
     {
-        printf("fork error");
+        perror("fork");
         exit(1);
     }
-    else if (pid == 0) /* filho */
+    if (f == 0)
     {
-        //waits for next signal
+        printf("Child waiting for %d signals...\n", NTIMES);
         while (1)
-        {
             pause();
-        }
     }
-    else /* pai */
+    else if (f > 0)
     {
-        srand(time(NULL)); // Initialization, should only be called once.
-
-        for (int i = 0; i < 10; i++)
+        int count = 0;
+        //sleep(1); // (try to) make sure child has time to install handlers...
+        srandom((unsigned int)time(NULL));
+        for (count = 0; count < NTIMES; count++)
         {
-            int r = rand() % 2; /* between 0 e 1 */
-
-            //Gives time to the child to finish its work
-            //sleep(1);
-
-            //sending signal do child
-            if (r == 0)
-            {
-                kill(pid, SIGUSR1);
-            }
+            if ((random() % 2) == 1)
+                kill(f, SIGUSR1);
             else
-            {
-                kill(pid, SIGUSR2);
-            }
-
-            sleep(1);
+                kill(f, SIGUSR2);
+            printf("\ncount: %d", count);
         }
-
-        //terminates the child
-        kill(pid, SIGTERM);
-
-        wait(NULL);
     }
-
-    return 0;
-}
+    return (0);
+} // main()
