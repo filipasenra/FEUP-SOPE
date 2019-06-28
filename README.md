@@ -1,5 +1,5 @@
 # SOPE
-Exercises and Exams solutions for the SOPE curricular unit.
+Exercises solutions for the SOPE curricular unit.
 
 ## Project Infos
 * Date: 2nd Year, 2st Semester, 2018/2019
