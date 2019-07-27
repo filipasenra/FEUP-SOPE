@@ -1,6 +1,8 @@
 # SOPE
 Exercises solutions for the SOPE curricular unit.
 
+**Final Grade**: 18
+
 ## Project Infos
 * Date: 2nd Year, 2st Semester, 2018/2019
 * Course: Sistemas Operativos (SOPE) | Operating Systems
